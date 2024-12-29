@@ -3,4 +3,4 @@ for (( i=1; i<=50; i+=1 ))
 do
 echo "$i"
 done
-touch g1
+touch g2
