@@ -5,4 +5,4 @@ fi
  git clone https://github.com/ChintalaDaisySriChandana/hello-world-war.git
 cd hello-world-war
  mvn clean package
-ls
+echo "$1 $2"
