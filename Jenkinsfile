@@ -18,4 +18,18 @@ pipeline {
             }
         }
     }
+    post {
+    success {
+        mail to: "phani.nandigam@moengage.com",
+             subject: "Jenkins Job Successful",
+             body: "The Jenkins job completed successfully."
+    }
+    failure {
+        mail to: "phani.nandigam@moengage.com",
+             subject: "Jenkins Job Failed",
+             body: "The Jenkins job failed."
+    }
+}
+
+
 }
