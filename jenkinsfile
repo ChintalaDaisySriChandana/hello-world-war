@@ -29,11 +29,11 @@ pipeline {
    post{
        success{
            echo "Build is success"
-           sh 'echo " Build is Success " | mail -s "Build Success"  daisychandanagmail.com'
+           sh 'echo " Build is Success " | mail -s "Build Success"  daisychandana@gmail.com'
        }
        failure{
            echo "Build failed"
-           sh 'echo " Build failed " | mail -s "Check logs"  daisychandanagmail.com'
+           sh 'echo " Build failed " | mail -s "Check logs"  daisychandana@gmail.com'
        }
    }
 }
