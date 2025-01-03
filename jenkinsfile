@@ -8,7 +8,7 @@ pipeline {
          }
        stage ('checkout') {
            steps {
-               sh 'https://github.com/ChintalaDaisySriChandana/hello-world-war.git'
+              sh 'echo "starting.." '
            }
        }
         stage ('build') {
