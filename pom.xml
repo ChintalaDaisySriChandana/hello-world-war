@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.efsavage</groupId>
@@ -7,7 +9,6 @@
 	<packaging>war</packaging>
 	<name>Hello World Web Application Repository</name>
 	<description>Simplest possible Java Webapp</description>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -23,19 +24,18 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.4.0</version>
 			</plugin>
-
-			 <plugin>
-		            <groupId>org.sonarsource.scanner.maven</groupId>
-		            <artifactId>sonar-maven-plugin</artifactId>
-		            <version>4.0.0.4121</version> <!-- Or another compatible version -->
-		        </plugin>
-			
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>4.0.0.4121</version>
+				<!-- Or another compatible version -->
+			</plugin>
 		</plugins>
 	</build>
 	<!---add your own sonar account details -->
 	<properties>
-	    <sonar.projectKey>phaninandigam_hello-world-war</sonar.projectKey>
-	    <sonar.organization>phaninandigam</sonar.organization>
-	    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-</properties>
+		<sonar.projectKey>phaninandigam_hello-world-war</sonar.projectKey>
+		<sonar.organization>phaninandigam</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+	</properties>
 </project>
