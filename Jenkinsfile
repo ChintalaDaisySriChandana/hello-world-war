@@ -1,35 +1,61 @@
 pipeline {
-    agent { label 'slave1' }
-    stages {
-        stage('checkout') {
+    agent any
+    //tools {
+     //   maven 'Maven-3.4.0' // Specify your Maven version if using Maven
+     //   jdk 'JDK11'         // Specify your JDK version
+    //}
+    environment {
+        SONAR_TOKEN = credentials('SONAR_TOKEN') // Store token in Jenkins credentials
+    }
+    
+       stages 
+    {
+        stage('checkout') {             
             steps {
-                echo "Fetching the repo"
+                sh 'rm -rf hello-world-war'
+                sh 'git clone https://github.com/AkshathaMR/hello-world-war/'
             }
         }
-        stage('build') {
+         stage('build') { 
             steps {
-                sh 'mvn clean install'
+                sh 'cd hello-world-war'
+                sh 'mvn clean package'
             }
         }
 
-        stage('deploy') {
+        stage('Checkout') {
             steps {
-                sh 'cp /opt/jenkins_slave/workspace/Assignment_2_Jan_hello_world/target/hello-world-war-1.0.0.war /opt/apache-tomcat-10.1.34/webapps/'
+                checkout scm
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn clean install' // Adjust for your build tool
+            }
+        }
+        //add your own sonar account details  
+        stage('SonarCloud Analysis') {
+            steps {
+                withSonarQubeEnv('SonarCloud') {
+                    sh '''
+                    mvn sonar:sonar \
+                      -Dsonar.projectKey=phaninandigam_project1 \
+                      -Dsonar.organization=phaninandigam \
+                      -Dsonar.host.url=https://sonarcloud.io \
+                      -Dsonar.login=$SONAR_TOKEN
+                    '''
+                }
+            }
+        }
+        stage('Quality Gate') {
+            steps {
+                script {
+                    def qg = waitForQualityGate()
+                    if (qg.status != 'OK') {
+                        error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                    }
+                }
             }
         }
     }
-    post {
-    success {
-        mail to: "phani.nandigam@moengage.com",
-             subject: "Jenkins Job Successful",
-             body: "The Jenkins job completed successfully."
     }
-    failure {
-        mail to: "phani.nandigam@moengage.com",
-             subject: "Jenkins Job Failed",
-             body: "The Jenkins job failed."
-    }
-}
-
-
-}
