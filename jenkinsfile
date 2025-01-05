@@ -39,9 +39,9 @@ pipeline {
                 withSonarQubeEnv('SonarCloud') {
                     sh '''
                     mvn sonar:sonar \
-                      -D"sonar.organization=chintala" `
-                      -D"sonar.projectKey=chintala_hello-world-war"
-                      -D"sonar.host.url=https://sonarcloud.io"
+                      -Dsonar.organization=chintala \
+                      -Dsonar.projectKey=chintala_hello-world-war \
+                      -Dsonar.host.url=https://sonarcloud.io
                       -Dsonar.login=$SONAR_TOKEN
                     '''
                 }
