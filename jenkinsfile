@@ -39,11 +39,12 @@ pipeline {
                 withSonarQubeEnv('SonarCloud') {
                     sh '''
                     mvn sonar:sonar \
-                      -Dsonar.organization=chintala \
                       -Dsonar.projectKey=chintala_hello-world-war \
+                      -Dsonar.organization=chintala \
                       -Dsonar.host.url=https://sonarcloud.io
                       -Dsonar.login=$SONAR_TOKEN
                     '''
+
                 }
             }
         }
