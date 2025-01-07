@@ -8,12 +8,12 @@
 	<name>Hello World Web Application Repository</name>
 	<description>Simplest possible Java Webapp</description>
 	<distributionManagement>
-            <repository>
-                <id>central</id>
-                <name>a0stmgvqdh8mr-artifactory-primary-0-releases</name>
-                <url>https://trialj4csko.jfrog.io/artifactory/hello_world_war-libs-release</url>
-           </repository>
-        </distributionManagement>
+            <snapshotRepository>
+                <id>snapshots</id>
+                <name>a0stmgvqdh8mr-artifactory-primary-0-snapshots</name>
+                <url>https://trialj4csko.jfrog.io/artifactory/hello_world_war-libs-snapshot</url>
+            </snapshotRepository>
+       </distributionManagement>
 	<build>
 		<plugins>
 			<plugin>
