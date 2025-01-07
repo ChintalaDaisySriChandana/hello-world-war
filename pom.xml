@@ -3,11 +3,17 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.efsavage</groupId>
 	<artifactId>hello-world-war</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.${env.GITHUB_RUN_NUMBER}</version>
 	<packaging>war</packaging>
 	<name>Hello World Web Application Repository</name>
 	<description>Simplest possible Java Webapp</description>
-
+	<distributionManagement>
+            <repository>
+                <id>central</id>
+                <name>a0stmgvqdh8mr-artifactory-primary-0-releases</name>
+                <url>https://trialj4csko.jfrog.io/artifactory/hello_world_war-libs-release</url>
+           </repository>
+        </distributionManagement>
 	<build>
 		<plugins>
 			<plugin>
@@ -23,19 +29,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.4.0</version>
 			</plugin>
-
-			 <plugin>
-		            <groupId>org.sonarsource.scanner.maven</groupId>
-		            <artifactId>sonar-maven-plugin</artifactId>
-		            <version>4.0.0.4121</version> <!-- Or another compatible version -->
-		        </plugin>
-			
 		</plugins>
 	</build>
-	<!---add your own sonar account details -->
-	<properties>
-	    <sonar.projectKey>chintala_hello-world-war</sonar.projectKey>
-            <sonar.organization>chintala</sonar.organization>
-            <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-</properties>
+
 </project>
