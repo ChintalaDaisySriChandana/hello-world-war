@@ -7,6 +7,7 @@
 	<packaging>war</packaging>
 	<name>Hello World Web Application Repository</name>
 	<description>Simplest possible Java Webapp</description>
+	
 	<distributionManagement>
             <snapshotRepository>
                 <id>snapshots</id>
@@ -14,6 +15,7 @@
                 <url>https://trialj4csko.jfrog.io/artifactory/hello_world_war-libs-snapshot</url>
             </snapshotRepository>
         </distributionManagement>
+	
 	<build>
 		<plugins>
 			<plugin>
