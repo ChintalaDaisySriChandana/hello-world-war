@@ -28,7 +28,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-      - name: Configure Maven settings
+    - name: Configure Maven settings
         run: |
           mkdir -p ~/.m2
           echo "<settings>
