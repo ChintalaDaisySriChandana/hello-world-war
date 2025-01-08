@@ -7,6 +7,15 @@
 	<artifactId>hello-world-war</artifactId>
 	<version>1.0.0</version>
 	<packaging>war</packaging>
+
+	<distributionManagement>
+    <repository>
+        <id>central</id>
+        <name>a0ts732pbh8dr-artifactory-primary-0-releases</name>
+        <url>https://trialg5o9x0.jfrog.io/artifactory/hello-world-war-2-libs-release</url>
+    </repository>
+</distributionManagement>
+	
 	<name>Hello World Web Application Repository</name>
 	<description>Simplest possible Java Webapp</description>
 	<build>
