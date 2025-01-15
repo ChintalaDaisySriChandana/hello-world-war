@@ -2,47 +2,46 @@ pipeline {
     agent any
 
     environment {
-        ARTIFACTORY_URL = "http://43.205.206.221:8082/artifactory/hello-world-war-libs-release/"
-        ARTIFACT_NAME = "hello-world-war-1.0.${env.BUILD_NUMBER}.war"
-        TOMCAT_SERVER = "43.205.206.221"
-        TOMCAT_USER = "manager"
-        TOMCAT_PATH = "/opt/apache-tomcat-10.1.34/webapps"
+        ARTIFACTORY_URL = 'http://43.205.206.221:8082/artifactory/hello-world-war-libs-release/'
+        REPO_NAME = 'hello-world-war'
+        ARTIFACT_NAME = 'hello-world-war-1.0.0.war' // Change this to your artifact name
+        TOMCAT_USER = 'manager'
+        TOMCAT_PASSWORD = 'admin123'
+        TOMCAT_URL = 'http://43.205.206.221:8088/manager/html'
+        BUILD_NUMBER = "${env.BUILD_NUMBER}" // Use Jenkins build number
     }
 
     stages {
-        stage('Download WAR from Artifactory') {
+        stage('Download Artifact') {
             steps {
-                echo "Downloading WAR file from Artifactory..."
-                sh """
-                    curl -u <artifactory-username>:<artifactory-password> \
-                    -O ${ARTIFACTORY_URL}${ARTIFACT_NAME}
-                """
-            }
-        }
+                script {
+                    // Construct the URL to download the artifact
+                    def artifactUrl = "${ARTIFACTORY_URL}/${REPO_NAME}/${BUILD_NUMBER}/${ARTIFACT_NAME}"
+                    echo "Downloading artifact from: ${artifactUrl}"
 
-        stage('Copy WAR to Tomcat Server') {
-            steps {
-                echo "Copying WAR file to Tomcat server..."
-                withCredentials([usernamePassword(credentialsId: 'TOMCAT_CREDENTIALS', usernameVariable: 'TOMCAT_USER', passwordVariable: 'TOMCAT_PASSWORD')]) {
-                    sh """
-                        sshpass -p "${TOMCAT_PASSWORD}" scp -o StrictHostKeyChecking=no \
-                        ${ARTIFACT_NAME} ${TOMCAT_USER}@${TOMCAT_SERVER}:${TOMCAT_PATH}/webapps/
-                    """
+                    // Download the artifact using curl
+                    sh "curl -u ${TOMCAT_USER}:${TOMCAT_PASSWORD} -O ${artifactUrl}"
                 }
             }
         }
 
-        stage('Restart Tomcat Server') {
+        stage('Copy to Tomcat') {
             steps {
-                echo "Restarting Tomcat server..."
-                withCredentials([usernamePassword(credentialsId: 'TOMCAT_CREDENTIALS', usernameVariable: 'TOMCAT_USER', passwordVariable: 'TOMCAT_PASSWORD')]) {
-                    sh """
-                        sshpass -p "${TOMCAT_PASSWORD}" ssh -o StrictHostKeyChecking=no ${TOMCAT_USER}@${TOMCAT_SERVER} << EOF
-                        ${TOMCAT_PATH}/bin/shutdown.sh
-                        sleep 5
-                        ${TOMCAT_PATH}/bin/startup.sh
-                        EOF
-                    """
+                script {
+                    // Copy the artifact to the Tomcat webapps directory
+                    echo "Copying artifact to Tomcat..."
+                  sh "scp -o StrictHostKeyChecking=no hello-world-war-1.0.0.war manager@43.205.206.221:8088:/path/to/tomcat/webapps/"
+
+                }
+            }
+        }
+
+        stage('Restart Tomcat') {
+            steps {
+                script {
+                    // Restart Tomcat using the manager app
+                    echo "Restarting Tomcat..."
+                    sh "curl -u ${TOMCAT_USER}:${TOMCAT_PASSWORD} ${TOMCAT_URL}/restart?path=/your-app-context"
                 }
             }
         }
@@ -50,10 +49,10 @@ pipeline {
 
     post {
         success {
-            echo "Deployment completed successfully!"
+            echo 'Pipeline completed successfully!'
         }
         failure {
-            echo "Deployment failed. Please check the logs."
+            echo 'Pipeline failed!'
         }
     }
 }
