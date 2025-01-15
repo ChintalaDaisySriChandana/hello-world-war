@@ -4,7 +4,7 @@ pipeline {
     environment {
         ARTIFACTORY_URL = 'http://43.205.206.221:8082/artifactory/hello-world-war-libs-release/'
         REPO_NAME = 'hello-world-war'
-        ARTIFACT_NAME = 'hello-world-war.war' // Change this to your artifact name
+        ARTIFACT_NAME = 'hello-world-war-1.0.0.war' // Change this to your artifact name
         TOMCAT_USER = 'manager'
         TOMCAT_PASSWORD = 'admin123'
         TOMCAT_URL = 'http://43.205.206.221:8088/manager/html'
@@ -30,7 +30,7 @@ pipeline {
                 script {
                     // Copy the artifact to the Tomcat webapps directory
                     echo "Copying artifact to Tomcat..."
-                  sh "scp -o StrictHostKeyChecking=no hello-world-war.war manager@43.205.206.221:8088:/path/to/tomcat/webapps/"
+                  sh "scp -o StrictHostKeyChecking=no hello-world-war-1.0.0.war manager@43.205.206.221:8088:/path/to/tomcat/webapps/"
 
                 }
             }
