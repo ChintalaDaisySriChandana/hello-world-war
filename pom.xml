@@ -11,8 +11,8 @@
 	<distributionManagement>
     <repository>
         <id>central</id>
-        <name>a0ts732pbh8dr-artifactory-primary-0-releases</name>
-        <url>https://trialg5o9x0.jfrog.io/artifactory/hello-world-war-2-libs-release</url>
+        <name>ip-172-31-41-68-releases</name>
+        <url>http://43.205.242.125:8081/artifactory/hello_world_1-libs-release</url>
     </repository>
 </distributionManagement>
 	
