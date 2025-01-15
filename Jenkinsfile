@@ -30,7 +30,7 @@ pipeline {
                 script {
                     // Copy the artifact to the Tomcat webapps directory
                     echo "Copying artifact to Tomcat..."
-                    sh "scp -o StrictHostKeyChecking=no ${ARTIFACT_NAME} ${TOMCAT_USER}@your-tomcat-server:/path/to/tomcat/webapps/"
+                  sh "scp -o StrictHostKeyChecking=no -P 8088 ${ARTIFACT_NAME} ${TOMCAT_USER}@43.205.206.221:/path/to/tomcat/webapps/"
                 }
             }
         }
