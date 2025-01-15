@@ -10,7 +10,6 @@ pipeline {
                 sh """
                 #!/bin/bash
                 sleep 5
-               # sudo su
                 cd /opt/apache-tomcat-10.1.34/webapps
                 ls
                 curl -L -u "JFROG_USR:JFROG_PWD" -O "http://43.205.206.221:8082/artifactory/hello-world-war-libs-release/com/efsavage/hello-world-war/1.0.52/hello-world-war-1.0.52.war"
