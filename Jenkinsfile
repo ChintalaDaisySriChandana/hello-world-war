@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'jfrog' }
+    agent any
     environment {
        Sample_creds = credentials('Jfrog')
     }
