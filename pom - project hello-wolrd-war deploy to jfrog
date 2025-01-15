@@ -6,14 +6,13 @@
         <version>0.0.2</version>
         <packaging>war</packaging>
 
-
         <distributionManagement>
-    <repository>
-        <id>central</id>
-        <name>a0stmgvqdh8mr-artifactory-primary-0-releases</name>
-        <url>https://trialj4csko.jfrog.io/artifactory/hello_world_war-libs-release</url>
-    </repository>
-        </distributionManagement>
+	    <repository>
+	        <id>hello-world-war</id>
+	        <name>hello_world_war-libs-release</name>
+	        <url>http://43.205.206.221:8082/artifactory/hello-world-war-libs-release</url>
+	    </repository>
+  	</distributionManagement>
 
         <name>Hello World Web Application Repository</name>
         <description>Simplest possible Java Webapp</description>
