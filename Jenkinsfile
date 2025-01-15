@@ -2,12 +2,14 @@ pipeline {
     agent any
 
     environment {
-        ARTIFACTORY_URL = 'http://43.205.206.221:8082/artifactory/hello-world-war-libs-release/'
+        ARTIFACTORY_URL = 'http://43.205.206.221:8082/artifactory/hello-world-war-libs-release'
         REPO_NAME = 'hello-world-war'
-        ARTIFACT_NAME = 'hello-world-war-1.0.0.war' // Change this to your artifact name
+        ARTIFACT_NAME = 'hello-world-war' 
         TOMCAT_USER = 'manager'
         TOMCAT_PASSWORD = 'admin123'
-        TOMCAT_URL = 'http://43.205.206.221:8088/manager/html'
+        TOMCAT_HOST = '43.205.206.221'
+        TOMCAT_PORT = '8088'
+        TOMCAT_PATH = '/opt/apache-tomcat-10.1.34'
         BUILD_NUMBER = "${env.BUILD_NUMBER}" // Use Jenkins build number
     }
 
@@ -15,12 +17,15 @@ pipeline {
         stage('Download Artifact') {
             steps {
                 script {
-                    // Construct the URL to download the artifact
+                    // Construct the artifact URL
                     def artifactUrl = "${ARTIFACTORY_URL}/${REPO_NAME}/${BUILD_NUMBER}/${ARTIFACT_NAME}"
                     echo "Downloading artifact from: ${artifactUrl}"
 
-                    // Download the artifact using curl
-                    sh "curl -u ${TOMCAT_USER}:${TOMCAT_PASSWORD} -O ${artifactUrl}"
+                    // Download the artifact from Artifactory using curl
+                    sh """
+                    curl -u <artifactory-username>:<artifactory-password> \
+                    -O ${artifactUrl}
+                    """
                 }
             }
         }
@@ -28,10 +33,12 @@ pipeline {
         stage('Copy to Tomcat') {
             steps {
                 script {
-                    // Copy the artifact to the Tomcat webapps directory
-                    echo "Copying artifact to Tomcat..."
-                  sh "scp -o StrictHostKeyChecking=no hello-world-war-1.0.0.war manager@43.205.206.221:8088:/path/to/tomcat/webapps/"
-
+                    // Copy the WAR file to the Tomcat webapps directory
+                    echo "Copying artifact to Tomcat server..."
+                    sh """
+                    scp -o StrictHostKeyChecking=no ${ARTIFACT_NAME} \
+                    ${TOMCAT_USER}@${TOMCAT_HOST}:${TOMCAT_PATH}/webapps/
+                    """
                 }
             }
         }
@@ -39,9 +46,15 @@ pipeline {
         stage('Restart Tomcat') {
             steps {
                 script {
-                    // Restart Tomcat using the manager app
-                    echo "Restarting Tomcat..."
-                    sh "curl -u ${TOMCAT_USER}:${TOMCAT_PASSWORD} ${TOMCAT_URL}/restart?path=/your-app-context"
+                    // Restart Tomcat server
+                    echo "Restarting Tomcat server..."
+                    sh """
+                    ssh -o StrictHostKeyChecking=no ${TOMCAT_USER}@${TOMCAT_HOST} << EOF
+                    ${TOMCAT_PATH}/bin/shutdown.sh
+                    sleep 5
+                    ${TOMCAT_PATH}/bin/startup.sh
+                    EOF
+                    """
                 }
             }
         }
