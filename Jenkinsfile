@@ -6,8 +6,7 @@ pipeline {
         ARTIFACT_NAME = "hello-world-war-1.0.${env.BUILD_NUMBER}.war"
         TOMCAT_SERVER = "43.205.206.221"
         TOMCAT_USER = "manager"
-        TOMCAT_PATH = "http://43.205.206.221:8088/manager/html"
-        
+        TOMCAT_PATH = "/opt/apache-tomcat-10.1.34/webapps"
     }
 
     stages {
@@ -24,23 +23,27 @@ pipeline {
         stage('Copy WAR to Tomcat Server') {
             steps {
                 echo "Copying WAR file to Tomcat server..."
-                sh """
-                    scp -o StrictHostKeyChecking=no -i ${SSH_KEY} \
-                    ${ARTIFACT_NAME} ${TOMCAT_USER}@${TOMCAT_SERVER}:${TOMCAT_PATH}/webapps/
-                """
+                withCredentials([usernamePassword(credentialsId: 'TOMCAT_CREDENTIALS', usernameVariable: 'TOMCAT_USER', passwordVariable: 'TOMCAT_PASSWORD')]) {
+                    sh """
+                        sshpass -p "${TOMCAT_PASSWORD}" scp -o StrictHostKeyChecking=no \
+                        ${ARTIFACT_NAME} ${TOMCAT_USER}@${TOMCAT_SERVER}:${TOMCAT_PATH}/webapps/
+                    """
+                }
             }
         }
 
         stage('Restart Tomcat Server') {
             steps {
                 echo "Restarting Tomcat server..."
-                sh """
-                    ssh -o StrictHostKeyChecking=no -i ${SSH_KEY} ${TOMCAT_USER}@${TOMCAT_SERVER} << EOF
-                    ${TOMCAT_PATH}/bin/shutdown.sh
-                    sleep 5
-                    ${TOMCAT_PATH}/bin/startup.sh
-                    EOF
-                """
+                withCredentials([usernamePassword(credentialsId: 'TOMCAT_CREDENTIALS', usernameVariable: 'TOMCAT_USER', passwordVariable: 'TOMCAT_PASSWORD')]) {
+                    sh """
+                        sshpass -p "${TOMCAT_PASSWORD}" ssh -o StrictHostKeyChecking=no ${TOMCAT_USER}@${TOMCAT_SERVER} << EOF
+                        ${TOMCAT_PATH}/bin/shutdown.sh
+                        sleep 5
+                        ${TOMCAT_PATH}/bin/startup.sh
+                        EOF
+                    """
+                }
             }
         }
     }
