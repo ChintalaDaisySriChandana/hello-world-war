@@ -51,7 +51,7 @@ jobs:
 
       - name: Deploy to Tomcat (Staging/Production)
         run: |
-          echo "Deploying to ${matrix.environment}..."
+          #echo "Deploying to ${matrix.environment}..."
           run: |
           echo "Deployoing the script"
           sudo chown -R ubuntu:ubuntu /opt
