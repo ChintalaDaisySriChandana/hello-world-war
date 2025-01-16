@@ -46,9 +46,10 @@ jobs:
   
 
       - name: deploying the war file 
-        run: sh '''
+        run: |
           echo "Deployoing the script"
-          sudo su
-          cd /opt/apache-tomcat-10.1.34/webapps/
+          #sudo su
+          #cd /opt/apache-tomcat-10.1.34/webapps/
+          cd /home/ubuntu/
           mkdir -p test1
-          '''
+        
