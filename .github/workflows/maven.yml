@@ -40,7 +40,7 @@ jobs:
 
   deploy:
 
-    runs-on: [self-hosted,${{ matrix.environment }}]
+    runs-on: ${{ matrix.environment }}
     needs: uploading_artifact_to_Jfrog # Waits for SonarQube and Artifactory jobs to complete
     strategy:
       matrix:
