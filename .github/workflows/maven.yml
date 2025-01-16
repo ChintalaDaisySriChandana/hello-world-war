@@ -38,7 +38,7 @@ jobs:
 
     - name: uploading the artifact
       run: |
-        curl -u admin:cmVmdGtuOjAxOjE3Njg1NjIwMjY6SzY0cXpONlFrT3ZkbXB2SnlnNFRlR2pYcWZj -T target/hello-world-war-1.0.37.war  "http://3.111.147.160:8082/artifactory/hello_world_1-libs-release/com/efsavage/hello-world-war/"
+        curl -u admin:cmVmdGtuOjAxOjE3Njg1NjIwMjY6SzY0cXpONlFrT3ZkbXB2SnlnNFRlR2pYcWZj -T target/hello-world-war-1.0.39.war  "http://3.111.147.160:8082/artifactory/hello_world_1-libs-release/com/efsavage/hello-world-war/"
 
   deploy:
 
