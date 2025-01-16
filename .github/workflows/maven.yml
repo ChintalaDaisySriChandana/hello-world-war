@@ -20,21 +20,21 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Configure Maven settings
-      run: |
-          mkdir -p ~/.m2
-          echo "<settings>
-                  <servers>
-                    <server>
-                      <id>central</id>
-                      <username>${{ secrets.ARTIFACTORY_USERNAME }}</username>
-                      <password>${{ secrets.ARTIFACTORY_API_KEY }}</password>
-                    </server>
-                  </servers>
-                </settings>" > ~/.m2/settings.xml
+    # - name: Configure Maven settings
+    #   run: |
+    #       mkdir -p ~/.m2
+    #       echo "<settings>
+    #               <servers>
+    #                 <server>
+    #                   <id>central</id>
+    #                   <username>${{ secrets.ARTIFACTORY_USERNAME }}</username>
+    #                   <password>${{ secrets.ARTIFACTORY_API_KEY }}</password>
+    #                 </server>
+    #               </servers>
+    #             </settings>" > ~/.m2/settings.xml
 
     - name: Build with Maven
-      run: mvn clean deploy
+      run: mvn clean install
 
 
   deploy:
