@@ -46,7 +46,8 @@ jobs:
   
 
       - name: deploying the war file 
-        run: sh '''
+        run: |
+          sh '''
           #!/bin/bash
           echo "Deployoing the script"
           sudo su
