@@ -46,6 +46,6 @@ jobs:
   
 
       - name: deploying the war file 
-         run: |
-           echo "Deployoing the script"
-           mkdir -p test1
+        run: |
+          echo "Deployoing the script"
+          mkdir -p test1
